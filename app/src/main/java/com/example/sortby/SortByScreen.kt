@@ -17,6 +17,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.example.sortby.models.empty.contact
 import com.example.sortby.models.empty.sortTypes
@@ -42,10 +44,12 @@ class SortByScreen : ComponentActivity() {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun OfferSortByScreen() {
+    val sortByComponentState = remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -59,12 +63,24 @@ fun OfferSortByScreen() {
         },
         content = {
             SortByContentComponent(
-                padding = it,
                 scrollState = LazyListState(),
-                contacts = contact
+                padding = it,
+                contacts = contact,
+                onIconClick = {},
+                sortByComponentState = sortByComponentState
             )
         },
-        bottomBar = { SortByComponent(sortTypes = sortTypes, scrollState = LazyListState()) }
+        bottomBar = {
+            if (sortByComponentState.value) {
+                SortByComponent(
+                    sortTypes = sortTypes,
+                    onSortTypeSelected = { /* lógica de seleção */ },
+                    onDismissRequest = { sortByComponentState.value = false },
+                    onItemClick = { /* lógica de clique no item */ }
+                )
+            }
+        }
     )
 }
+
 

@@ -1,6 +1,7 @@
 package com.example.sortby.ui.component.list
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,21 +12,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.sortby.R
 import com.example.sortby.models.data.SortByItem
 import com.example.sortby.models.empty.sortTypes
 
 @Composable
-fun SortTypeItem(sortType: SortByItem) {
+fun SortTypeItem(sortType: SortByItem, onItemClick: () -> Unit) {
     Column {
         Row(
             Modifier
                 .fillMaxWidth()
                 .height(56.dp)
+                .clickable { onItemClick() }
         ) {
             Column(
                 Modifier
@@ -54,10 +54,4 @@ fun SortTypeItem(sortType: SortByItem) {
             color = Color(0xFFE6E6E6),
         )
     }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun SortTypeItemPreview() {
-    SortTypeItem(sortType = sortTypes.first())
 }
